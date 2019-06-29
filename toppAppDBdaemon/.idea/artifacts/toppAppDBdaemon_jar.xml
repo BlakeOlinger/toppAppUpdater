@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="toppAppDBdaemon:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/toppAppDBdaemon_jar</output-path>
-    <root id="archive" name="toppAppDBdaemon.jar">
-      <element id="module-output" name="toppAppDBdaemon" />
-    </root>
-  </artifact>
-</component>
