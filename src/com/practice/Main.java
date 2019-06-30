@@ -15,9 +15,17 @@ public class Main {
 
     public static void main(String[] args) {
 
-        new Initialize().currentVersionData();
 
-        new Config().monitorProgramState();
+        try {
+            var initialize = new Initialize();
+
+            initialize.thread.start();
+            initialize.thread.join();
+
+            new Config().monitorProgramState();
+        } catch (InterruptedException ignore) {
+        }
+
 
     }
 }
