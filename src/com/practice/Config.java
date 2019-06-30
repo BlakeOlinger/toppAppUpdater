@@ -6,6 +6,10 @@ import java.io.IOException;
 class Config implements Runnable{
     private final Thread thread;
     private static String programState = "0";
+    private static boolean isDatabaseInitalized = false;
+    private static boolean updaterConfigInitalized = false;
+    // TODO - make database output a second digit for its config file - 1 or 0 for not or is a Database
+    // this daemon won't attempt to read from it until it reads a 0 on the second character of that config
 
     Config() {
         thread = new Thread(this, "Monitor Program State");
