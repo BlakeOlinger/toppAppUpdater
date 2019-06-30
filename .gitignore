@@ -1,0 +1,13 @@
+programFiles/*
+
+toppAppDBdaemon/*
+
+.idea/artifacts/
+
+.idea/vcs.xml
+
+.idea/workspace.xml
+
+out/
+
+src/META-INF/
