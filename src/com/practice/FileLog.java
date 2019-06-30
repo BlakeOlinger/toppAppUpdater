@@ -12,7 +12,7 @@ class FileLog implements Runnable{
     }
 
     private void logMessage() {
-        thread.start();
+        // thread.start();
     }
 
     /**
