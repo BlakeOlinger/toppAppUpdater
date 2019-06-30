@@ -1,6 +1,7 @@
-programFiles/*
+programFiles/bin/currentVersion/*.jar
+programFiles/config/*.config
 
-toppAppDBdaemon/*
+toppAppDBdaemon/.gitignore
 
 .idea/artifacts/
 

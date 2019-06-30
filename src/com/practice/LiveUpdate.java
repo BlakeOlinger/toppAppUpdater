@@ -42,6 +42,9 @@ class LiveUpdate implements Runnable{
                 "master.config"
         };
 
+        var updater = "toppAppUpdater.jar";
+
+
         var configIndex = 0;
 
         for (String file :
@@ -72,15 +75,46 @@ class LiveUpdate implements Runnable{
                     FileLog.logFile(message);
                 }
 
+
             } else {
                 message = " Microservice " + file + " Up To Date";
                 FileLog.logFile(message);
             }
         }
 
+        if(whereDiff(currentVersionPath + updater,
+                latestVersionPath + updater)) {
+            message = " Live Update - New Version Found - Updating Live Update Microservice";
+            FileLog.logFile(message);
+
+            updateLiveUpdateMicroservice();
+        } else {
+            message = " Live Update - Up To Date";
+            FileLog.logFile(message);
+        }
+
         message = " Live Update - Check and Update - End";
         FileLog.logFile(message);
 
+    }
+
+    private void updateLiveUpdateMicroservice() {
+        var message = " Live Update - Sending Update Live Update Command to Master";
+        FileLog.logFile(message);
+
+        var masterConfigPath = "programFiles/config/master.config";
+
+        try (var masterConfig = new FileOutputStream(masterConfigPath)) {
+            var commandOne = (int) '0';
+            var updateCommand = (int) '0';
+
+            masterConfig.write(commandOne);
+            masterConfig.write(updateCommand);
+
+        } catch (IOException ignore) {
+            message = " ERROR: Could Not Send Command to Master";
+            FileLog.logFile(message);
+        }
     }
 
     private boolean whereDiff(String currentPath, String latestPath) {
