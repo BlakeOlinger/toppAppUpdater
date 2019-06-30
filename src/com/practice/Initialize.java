@@ -38,7 +38,9 @@ class Initialize implements Runnable {
                 "toppAppMaster.jar"
         };
 
+        System.out.println(" Live Update Microservice: Checking for Current Version File Information...");
         if(!toppAppCurrentVersion.exists()) {
+            System.out.println(" No Current Version File Information Found - Initializing...");
             for (String string :
                     latestFiles) {
                 Version.copyLatestToCurrent(
@@ -46,6 +48,14 @@ class Initialize implements Runnable {
                         currentVersionPath + string
                         );
             }
+
+            if(toppAppCurrentVersion.exists()) {
+                System.out.println(" Current Version File Information Successfully Created");
+            } else {
+                System.out.println(" ERROR: Could Not Initialize Current Version File Information");
+            }
+        } else {
+            System.out.println(" Current Version File Information Found");
         }
     }
 

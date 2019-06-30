@@ -31,7 +31,9 @@ class Config implements Runnable{
         var programStatePath = "programFiles/config/updater.config";
         int readByte;
         var index = 0;
+        System.out.println(" Live Update Daemon - Start");
         do {
+            System.out.println(" Reading updater.config");
             try (var updaterConfig = new FileInputStream(programStatePath)){
                 do {
                     readByte = updaterConfig.read();
@@ -39,15 +41,20 @@ class Config implements Runnable{
                         programState = String.valueOf((char) readByte);
                     }
 
+                    System.out.println(" Current Live Update State - " + programState);
+
                 } while (readByte != -1);
             } catch (IOException ignore) {
-
+                System.out.println(" ERROR: Could Not Read Config File");
             }
             index = 0;
             try {
+                System.out.println(" Live Update Thread Sleep - 2,000 ms");
                 Thread.sleep(2000);
             } catch (InterruptedException ignore) {
             }
         } while (programState.compareTo("0") == 0);
+
+        System.out.println(" Live Update Daemon - End");
     }
 }
