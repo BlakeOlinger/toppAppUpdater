@@ -36,13 +36,18 @@ class Initialize implements Runnable {
         };
 
 
-        System.out.println(" Live Update Microservice: Checking for Current Version File Information...");
+        var message = " Live Update Microservice: Checking for Current Version File Information...";
+        FileLog.logFile(message);
+
         if(!toppAppCurrentVersion.exists()) {
 
-            System.out.println(" No Current Version File Information Found - Initializing...");
+            message = " No Current Version File Information Found - Initializing...";
+            FileLog.logFile(message);
+
             Config.isDatabaseInitialized = false;
 
-            System.out.println(" Connecting to Local Database Instance...");
+            message = " Connecting to Local Database Instance...";
+            FileLog.logFile(message);
 
             do {
                 for (String string :
@@ -54,28 +59,36 @@ class Initialize implements Runnable {
                 }
 
                 if(toppAppCurrentVersion.exists()) {
-                    System.out.println(" Connected to Local Database Instance -");
-                    System.out.println(" Current Version File Information Successfully Created");
+                    message = " Connected to Local Database Instance -\n" +
+                            " Current Version File Information Successfully Created";
+                    FileLog.logFile(message);
+
                     Config.isDatabaseInitialized = true;
 
                 } else {
-                    System.out.println(" ERROR: Could Not Connect to Local Database Instance");
+                    message = " ERROR: Could Not Connect to Local Database Instance";
+                    FileLog.logFile(message);
 
                     try {
-                        System.out.println(" Attempting Again In 2,000 ms - Timeout in " + (timeoutTries + 1) + " Tries...");
+                        message = " Attempting Again In 2,000 ms - Timeout in " + (timeoutTries + 1) + " Tries...";
+                        FileLog.logFile(message);
+
                         Thread.sleep(2000);
                     } catch (InterruptedException ignore) {
                     }
 
                     if(timeoutTries == 0) {
-                        System.out.println(" Database Connection Timed Out - Ending Live Update Daemon...");
+                        message = " Database Connection Timed Out - Ending Live Update Daemon...";
+                        FileLog.logFile(message);
                     }
                 }
 
             } while (!Config.isDatabaseInitialized && timeoutTries-- > 0);
 
         } else {
-            System.out.println(" Current Version File Information Found");
+            message = " Current Version File Information Found";
+            FileLog.logFile(message);
+
             Config.isDatabaseInitialized = true;
         }
     }

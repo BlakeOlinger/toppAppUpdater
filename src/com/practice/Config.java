@@ -8,9 +8,6 @@ class Config implements Runnable{
     private static String programState = "0";
     static boolean isDatabaseInitialized = false;
 
-    // TODO - make database output a second digit for its config file - 1 or 0 for not or is a Database
-    // this daemon won't attempt to read from it until it reads a 0 on the second character of that config
-
     Config() {
         thread = new Thread(this, "Monitor Program State");
     }
@@ -32,13 +29,21 @@ class Config implements Runnable{
      */
     @Override
     public void run() {
+        var logMessage = "";
+
+        logMessage = " Live Update Daemon - Start";
+        FileLog.logFile(logMessage);
+
         if(isDatabaseInitialized) {
             var programStatePath = "programFiles/config/updater.config";
             int readByte;
             var index = 0;
-            System.out.println(" Live Update Daemon - Start");
+
+
             do {
-                System.out.println(" Reading updater.config");
+                logMessage = " Reading updater.config";
+                FileLog.logFile(logMessage);
+
                 try (var updaterConfig = new FileInputStream(programStatePath)) {
                     do {
                         readByte = updaterConfig.read();
@@ -46,21 +51,26 @@ class Config implements Runnable{
                             programState = String.valueOf((char) readByte);
                         }
 
-                        System.out.println(" Current Live Update State - " + programState);
+                        logMessage = " Current Live Update State - " + programState;
+                        FileLog.logFile(logMessage);
 
                     } while (readByte != -1);
                 } catch (IOException ignore) {
-                    System.out.println(" ERROR: Could Not Read Config File");
+                    logMessage = " ERROR: Could Not Read Config File";
+                    FileLog.logFile(logMessage);
                 }
                 index = 0;
                 try {
-                    System.out.println(" Live Update Thread Sleep - 2,000 ms");
+                    logMessage = " Live Update Thread Sleep - 2,000 ms";
+                    FileLog.logFile(logMessage);
+
                     Thread.sleep(2000);
                 } catch (InterruptedException ignore) {
                 }
             } while (programState.compareTo("0") == 0);
         }
 
-        System.out.println(" Live Update Daemon - End");
+        logMessage = " Live Update Daemon - End";
+        FileLog.logFile(logMessage);
     }
 }
