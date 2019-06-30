@@ -60,6 +60,9 @@ class Config implements Runnable{
                     FileLog.logFile(logMessage);
                 }
                 index = 0;
+
+                new LiveUpdate().checkAndUpdate();
+
                 try {
                     logMessage = " Live Update Thread Sleep - 2,000 ms";
                     FileLog.logFile(logMessage);
