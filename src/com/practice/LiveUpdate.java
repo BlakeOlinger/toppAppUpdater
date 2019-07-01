@@ -213,7 +213,14 @@ class LiveUpdate implements Runnable{
         FileLog.logFile(message);
 
         try (var writeFile = new FileOutputStream(configPath + configFileName)) {
+
             writeFile.write(command);
+
+            if(configFileName.compareTo("toppAppDBdaemon.jar") == 0 ||
+            configFileName.compareTo("toppAppMaster.jar") == 0) {
+                var commandTwo = (int) '1';
+                writeFile.write(commandTwo);
+            }
         } catch (IOException ignore) {
             message = " Could Not Write Ints to File " + configFileName;
             FileLog.logFile(message);
