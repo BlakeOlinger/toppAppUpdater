@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 class Daemon {
     private static final Path CONFIG_PATH = Paths.get("programFiles/config/updater.config");
@@ -17,12 +18,17 @@ class Daemon {
         } catch (InterruptedException ignore) {
         }
 
-        var liveUpdateService = new LiveUpdate();
-
         do {
             checkProgramState();
 
-            liveUpdateService.checkAndUpdate();
+            checkForUpdates();
+
+            if(Config.areUpdates) {
+                for(var i = 0; i < 4; ++i) {
+                    if(Config.updateIndex[i])
+                        new LiveUpdate(i).update();
+                }
+            }
 
             try {
                 Thread.sleep(2000);
@@ -30,6 +36,25 @@ class Daemon {
             }
         } while (Config.programState.compareTo("0") == 0);
 
+    }
+
+    private static void checkForUpdates() {
+        byte[] sourceBytes;
+        byte[] targetBytes;
+        var index = 0;
+        for(String name: Config.MICROSERVICE_NAMES) {
+            try {
+                sourceBytes = Files.readAllBytes(Paths.get(Config.SOURCE_ROOT + name));
+                targetBytes = Files.readAllBytes(Paths.get(Config.TARGET_ROOT + name));
+
+                if(!Arrays.equals(sourceBytes, targetBytes)) {
+                    Config.updateIndex[index++] = true;
+                }
+            } catch (IOException ignore) {
+            }
+        }
+
+        Config.areUpdates = true;
     }
 
     private static void checkProgramState() {

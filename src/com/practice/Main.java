@@ -15,12 +15,5 @@ public class Main {
 
     public static void main(String[] args) {
         Daemon.start();
-        /*
-        try {
-            new Config().monitorProgramState();
-        } catch (InterruptedException ignore) {
-        }
-
-         */
     }
 }
