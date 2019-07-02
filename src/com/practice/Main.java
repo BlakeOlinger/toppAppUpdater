@@ -17,11 +17,6 @@ public class Main {
         Daemon.start();
         /*
         try {
-            var initialize = new Initialize();
-
-            initialize.thread.start();
-            initialize.thread.join();
-
             new Config().monitorProgramState();
         } catch (InterruptedException ignore) {
         }
