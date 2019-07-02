@@ -14,8 +14,8 @@ updated microservice via cmd.exe call
 public class Main {
 
     public static void main(String[] args) {
-
-
+        Daemon.start();
+        /*
         try {
             var initialize = new Initialize();
 
@@ -26,6 +26,6 @@ public class Main {
         } catch (InterruptedException ignore) {
         }
 
-
+         */
     }
 }
