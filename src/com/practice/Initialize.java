@@ -27,6 +27,10 @@ class Initialize implements Runnable {
                 "toppAppMaster.jar"
         };
 
+        // TODO - copying files can be heavy and can benefit from multithreading
+        //  implement a multithreading solution and make isDB init - to
+        //  isupdaterinit via arraylist<bool> as before so each process is
+        //  independent
 
         if(!Files.exists(Paths.get(targetRoot + names[0]))) {
             Config.isDatabaseInitialized = false;
