@@ -10,25 +10,25 @@ class Daemon {
     private static final Path CONFIG_PATH = Paths.get("programFiles/config/updater.config");
 
     static void start(){
-       var initialize = new Initialize();
-       initialize.thread.start();
-
-       try {
-            initialize.thread.join();
-        } catch (InterruptedException ignore) {
-        }
+//       var initialize = new Initialize();
+//       initialize.thread.start();
+//
+//       try {
+//            initialize.thread.join();
+//        } catch (InterruptedException ignore) {
+//        }
 
         do {
             checkProgramState();
 
-            checkForUpdates();
-
-            if(Config.areUpdates) {
-                for(var i = 0; i < 4; ++i) {
-                    if(Config.updateIndex[i])
-                        new LiveUpdate(i).update();
-                }
-            }
+//            checkForUpdates();
+//
+//            if(Config.areUpdates) {
+//                for(var i = 0; i < 4; ++i) {
+//                    if(Config.updateIndex[i])
+//                        new LiveUpdate(i).update();
+//                }
+//            }
 
             try {
                 Thread.sleep(2000);
