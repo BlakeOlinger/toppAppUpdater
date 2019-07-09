@@ -61,6 +61,15 @@ class Daemon {
                 if (Config.areUpdates.contains(Boolean.TRUE)) {
                     logger.log(Level.INFO,"Daemon - Check for Updates - Updates Detected");
 
+                    logger.log(Level.INFO, "Daemon - Check for Updates - Updates - Start");
+
+//                    for(var i = 0; i < Config.MICROSERVICE_NAMES.length
+//                            + Config.SW_BIN_NAMES.length; ++i) {
+//
+//                    }
+
+                    logger.log(Level.INFO, "Daemon - Check for Updates - Updates - End");
+
                     Config.areUpdates.clear();
                 } else {
                     logger.log(Level.INFO, "Daemon - Check for Updates - No Updates Detected");

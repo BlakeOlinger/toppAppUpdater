@@ -11,6 +11,7 @@ class Config {
     static final String TARGET_ROOT = Main.userRoot + "programFiles/bin/currentVersion/";
     static final String SW_TARGET_ROOT = Main.userRoot + "programFiles/bin/currentVersion/sw/";
     static final String CONFIG_ROOT = Main.userRoot + "programFiles/config/";
+    static String UPDATE_NAME = "";
     static final String[] MICROSERVICE_NAMES = {
             "toppApp.jar",
             "toppAppDBdaemon.jar",
@@ -21,7 +22,8 @@ class Config {
     static final String[] CONFIG_NAMES = {
             "GUI.config",
             "DBdaemon.config",
-            "master.config"
+            "master.config",
+            "SWmicroservice.config"
     };
 
     static final String[] SW_BIN_NAMES = {
