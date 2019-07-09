@@ -11,8 +11,10 @@ and copies its current version to the production bin and restarts the
 updated microservice via cmd.exe call
  */
 
-// TODO - numerous paths need to be adjusted to the absolute path
-// TODO - add logging where needed
+// TODO - adjust paths to absolute paths for update function
+// TODO - add tests and logs
+// TODO - enable Live Update feature
+// TODO - add SW MS Live Update support
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

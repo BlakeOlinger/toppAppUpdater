@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class Daemon {
@@ -13,13 +14,14 @@ class Daemon {
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     static void start(){
-//       var initialize = new Initialize();
-//       initialize.thread.start();
-//
-//       try {
-//            initialize.thread.join();
-//        } catch (InterruptedException ignore) {
-//        }
+        logger.log(Level.INFO, "Daemon - Start");
+
+       var initialize = new Initialize();
+
+       initialize.start();
+
+       initialize.join();
+
 
         do {
             checkProgramState();
@@ -39,6 +41,7 @@ class Daemon {
             }
         } while (Config.programState.compareTo("0") == 0);
 
+        logger.log(Level.INFO, "Daemon - Exit");
     }
 
     private static void checkForUpdates() {
