@@ -12,7 +12,7 @@ class Initialize implements Runnable {
 
     @Override
     public void run() {
-        if(!Files.exists(Paths.get("programFiles/bin/currentVersion/toppApp.jar"))) {
+        if(!Files.exists(Paths.get(Main.userRoot + "programFiles/bin/currentVersion/toppApp.jar"))) {
 
             Config.isDatabaseInitialized = false;
 

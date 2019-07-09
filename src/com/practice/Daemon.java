@@ -5,9 +5,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 class Daemon {
-    private static final Path CONFIG_PATH = Paths.get("programFiles/config/updater.config");
+    private static final Path CONFIG_PATH = Paths.get(Main.userRoot + "programFiles/config/updater.config");
+    private static final Logger logger =
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     static void start(){
 //       var initialize = new Initialize();
