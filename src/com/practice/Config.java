@@ -1,10 +1,11 @@
 package com.practice;
 
+import java.util.ArrayList;
+
 class Config {
     static String programState = "0";
     static boolean isDatabaseInitialized = false;
-    static boolean areUpdates = false;
-    static boolean[] updateIndex = {false, false, false, false};
+    static ArrayList<Boolean> areUpdates = new ArrayList<>();
     static final String SOURCE_ROOT = Main.userRoot + "toppAppDBdaemon/programFiles/bin/";
     static final String SW_SOURCE_ROOT = Main.userRoot + "toppAppDBdaemon/programFiles/sw/";
     static final String TARGET_ROOT = Main.userRoot + "programFiles/bin/currentVersion/";

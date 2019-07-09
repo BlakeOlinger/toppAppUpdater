@@ -11,10 +11,8 @@ and copies its current version to the production bin and restarts the
 updated microservice via cmd.exe call
  */
 
-// TODO - adjust paths to absolute paths for update function
-// TODO - add tests and logs
-// TODO - enable Live Update feature
-// TODO - add SW MS Live Update support
+// TODO - use .bat files from simple notepad programs to
+//  - start microservices after update - JVM can't be trusted
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

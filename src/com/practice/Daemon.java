@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +12,7 @@ class Daemon {
     private static final Path CONFIG_PATH = Paths.get(Main.userRoot + "programFiles/config/updater.config");
     private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private static int countDown = 3;
 
     static void start(){
         logger.log(Level.INFO, "Daemon - Start");
@@ -26,13 +27,55 @@ class Daemon {
         do {
             checkProgramState();
 
-//            checkForUpdates();
-//
+            if (countDown-- == 0) {
+                logger.log(Level.INFO, "Daemon - Check for Updates - Threads - Checking for Updates - Start");
+
+                var updates = new ArrayList<Updates>();
+
+                for (String name : Config.MICROSERVICE_NAMES) {
+                    updates.add(
+                            new Updates(
+                                    Paths.get(Config.SOURCE_ROOT + name),
+                                    Paths.get(Config.TARGET_ROOT + name)
+                            )
+                    );
+                }
+
+                for (String name : Config.SW_BIN_NAMES) {
+                    updates.add(
+                            new Updates(
+                                    Paths.get(Config.SW_SOURCE_ROOT + name),
+                                    Paths.get(Config.SW_TARGET_ROOT + name)
+                            )
+                    );
+                }
+
+                updates.forEach(Updates::check);
+
+                updates.forEach(Updates::join);
+
+                countDown = 3;
+
+                logger.log(Level.INFO, "Daemon - Check for Updates - Threads - Checking for Updates - Exit");
+
+                if (Config.areUpdates.contains(Boolean.TRUE)) {
+                    logger.log(Level.INFO,"Daemon - Check for Updates - Updates Detected");
+
+                    Config.areUpdates.clear();
+                } else {
+                    logger.log(Level.INFO, "Daemon - Check for Updates - No Updates Detected");
+
+                    Config.areUpdates.clear();
+                }
+            }
+
 //            if(Config.areUpdates) {
 //                for(var i = 0; i < 4; ++i) {
 //                    if(Config.updateIndex[i])
 //                        new LiveUpdate(i).update();
 //                }
+//
+//                Config.areUpdates = false;
 //            }
 
             try {
@@ -42,25 +85,6 @@ class Daemon {
         } while (Config.programState.compareTo("0") == 0);
 
         logger.log(Level.INFO, "Daemon - Exit");
-    }
-
-    private static void checkForUpdates() {
-        byte[] sourceBytes;
-        byte[] targetBytes;
-        var index = 0;
-        for(String name: Config.MICROSERVICE_NAMES) {
-            try {
-                sourceBytes = Files.readAllBytes(Paths.get(Config.SOURCE_ROOT + name));
-                targetBytes = Files.readAllBytes(Paths.get(Config.TARGET_ROOT + name));
-
-                if(!Arrays.equals(sourceBytes, targetBytes)) {
-                    Config.updateIndex[index++] = true;
-                }
-            } catch (IOException ignore) {
-            }
-        }
-
-        Config.areUpdates = true;
     }
 
     private static void checkProgramState() {

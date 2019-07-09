@@ -49,7 +49,7 @@ class LiveUpdate implements Runnable{
     }
 
     private void resetAreUpdates() {
-        Config.areUpdates = false;
+        Config.areUpdates.add(Boolean.FALSE);
     }
 
     private void sendStartCommand() {
