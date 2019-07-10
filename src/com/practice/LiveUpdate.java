@@ -113,7 +113,7 @@ class LiveUpdate implements Runnable{
         var path = Paths.get(Config.CONFIG_ROOT + Config.CONFIG_NAMES[2]);
 
         try {
-            Files.writeString(path, "00");
+            Files.writeString(path, "001");
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error Could Not Write Update Live Update Command to Master");
         }
@@ -149,7 +149,7 @@ class LiveUpdate implements Runnable{
     private void sendKillCommand() {
 
         try {
-            Files.writeString(configPath, "11");
+            Files.writeString(configPath, "111");
         } catch (IOException ignore) {
         }
     }
