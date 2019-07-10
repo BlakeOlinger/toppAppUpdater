@@ -52,7 +52,11 @@ class LiveUpdate implements Runnable{
                 + Config.UPDATE_NAME + " - Start");
 
         if(updateIndex != 3) {
-            sendKillCommand();
+
+            if (updateIndex == 0)
+                sendGUIKillCommand();
+            else
+                sendKillCommand();
 
             try {
                 Thread.sleep(3000);
@@ -95,6 +99,13 @@ class LiveUpdate implements Runnable{
 
         logger.log(Level.INFO, "Live Update - Thread - Updating - "
                 + Config.UPDATE_NAME + " - Exit");
+    }
+
+    private void sendGUIKillCommand() {
+        try {
+            Files.writeString(configPath, "010");
+        } catch (IOException ignore) {
+        }
     }
 
     private void sendMasterLiveUpdateUpdateCommand() {
