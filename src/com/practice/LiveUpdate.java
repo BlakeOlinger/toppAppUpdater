@@ -55,6 +55,20 @@ class LiveUpdate implements Runnable{
             sendKillCommand();
 
             try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                logger.log(Level.SEVERE, "Error Updater Thread Interrupted", e);
+            }
+
+//            System.out.println("source - " + source);
+//
+//            System.out.println("target - " + target);
+//
+//            System.out.println("update name " + Config.UPDATE_NAME);
+//
+//            System.out.println("is SW Name - expect false - " + isSWName);
+
+            try {
                 Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 
                 if(!isSWName)
@@ -69,7 +83,7 @@ class LiveUpdate implements Runnable{
             }
 
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, "Error Updater Thread Interrupted", e);
             }

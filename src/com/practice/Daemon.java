@@ -28,7 +28,7 @@ class Daemon {
             checkProgramState();
 
             if (countDown-- == 0) {
-                logger.log(Level.INFO, "Daemon - Check for Updates - Threads - Checking for Updates - Start");
+                logger.log(Level.INFO, "Daemon - Check for Updates - Start");
 
                 var updates = new ArrayList<Updates>();
 
@@ -50,27 +50,40 @@ class Daemon {
                     );
                 }
 
-                updates.forEach(Updates::check);
+                for(Updates update : updates) {
+                    update.check();
 
-                updates.forEach(Updates::join);
+                    update.join();
+                }
 
                 countDown = 3;
 
-                logger.log(Level.INFO, "Daemon - Check for Updates - Threads - Checking for Updates - Exit");
+//                System.out.println("Config.areUpdates - size - " + Config.areUpdates.size());
 
                 if (Config.areUpdates.contains(Boolean.TRUE)) {
                     logger.log(Level.INFO,"Daemon - Check for Updates - Updates Detected");
 
-                    logger.log(Level.INFO, "Daemon - Check for Updates - Updates - Start");
+                    logger.log(Level.INFO, "Daemon - Check for Updates - Applying Updates - Start");
 
                     var liveUpdates = new ArrayList<LiveUpdate>();
+
+//                    System.out.println("max index length - "
+//                            + (Config.MICROSERVICE_NAMES.length
+//                            + Config.SW_BIN_NAMES.length));
 
                     for(var i = 0; i < Config.MICROSERVICE_NAMES.length
                             + Config.SW_BIN_NAMES.length; ++i) {
                         if (Config.areUpdates.get(i)) {
                             liveUpdates.add(
-                                    new LiveUpdate(i)
-                            );
+                                  new LiveUpdate(i)
+                           );
+//                            Config.areUpdates.forEach(System.out::println);
+//                            System.out.println("index = " + i);
+
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException ignore) {
+                            }
                         }
                     }
 
@@ -78,9 +91,10 @@ class Daemon {
 
                     liveUpdates.forEach(LiveUpdate::join);
 
-                    logger.log(Level.INFO, "Daemon - Check for Updates - Updates - End");
+                    logger.log(Level.INFO, "Daemon - Check for Updates - Applying Updates - End");
 
                     Config.areUpdates.clear();
+//                    System.out.println("Config are updates size - expect - 0 - " + Config.areUpdates.size());
                 } else {
                     logger.log(Level.INFO, "Daemon - Check for Updates - No Updates Detected");
 
