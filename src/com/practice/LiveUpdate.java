@@ -77,7 +77,7 @@ class LiveUpdate implements Runnable{
             sendStartCommand();
 
         } else
-          //  sendMasterLiveUpdateUpdateCommand();
+            sendMasterLiveUpdateUpdateCommand();
 
         logger.log(Level.INFO, "Live Update - Thread - Updating - "
                 + Config.UPDATE_NAME + " - Exit");
@@ -88,7 +88,8 @@ class LiveUpdate implements Runnable{
 
         try {
             Files.writeString(path, "00");
-        } catch (IOException ignore) {
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error Could Not Write Update Live Update Command to Master");
         }
     }
 

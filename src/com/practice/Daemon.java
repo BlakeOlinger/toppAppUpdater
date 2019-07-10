@@ -88,15 +88,6 @@ class Daemon {
                 }
             }
 
-//            if(Config.areUpdates) {
-//                for(var i = 0; i < 4; ++i) {
-//                    if(Config.updateIndex[i])
-//                        new LiveUpdate(i).update();
-//                }
-//
-//                Config.areUpdates = false;
-//            }
-
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException ignore) {

@@ -11,9 +11,6 @@ and copies its current version to the production bin and restarts the
 updated microservice via cmd.exe call
  */
 
-// TODO - use .bat files from simple notepad programs to
-//  - start microservices after update - JVM can't be trusted
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
