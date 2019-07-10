@@ -120,7 +120,7 @@ class LiveUpdate implements Runnable{
 
     private void sendStartCommand() {
         try {
-            Files.writeString(configPath, "01");
+            Files.writeString(configPath, "011");
 
             getBatName();
 
