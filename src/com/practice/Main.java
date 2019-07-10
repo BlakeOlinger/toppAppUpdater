@@ -19,6 +19,8 @@ public class Main {
     private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+    // TODO - continue testing to see if master update Live Update command works
+    //  - then test SW C# MS
     public static void main(String[] args) {
         logger.log(Level.INFO, "Main Thread - Start");
 
