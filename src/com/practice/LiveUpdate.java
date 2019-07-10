@@ -59,7 +59,7 @@ class LiveUpdate implements Runnable{
                 sendKillCommand();
 
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, "Error Updater Thread Interrupted", e);
             }
