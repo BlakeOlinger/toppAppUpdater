@@ -27,7 +27,7 @@ class LiveUpdateTest {
     }
 
     @Test
-    void name_for_4_shoud_be_hostfxr() {
+    void name_for_4_should_be_hostfxr() {
         var updateIndex = 4;
         var expected = "hostfxr.dll";
         var liveUpdate = new LiveUpdate(updateIndex);
@@ -46,5 +46,38 @@ class LiveUpdateTest {
         liveUpdate.update();
 
         assertEquals(expected, Config.UPDATE_NAME);
+    }
+
+    @Test
+    void return_toppAppBat_for_toppAppJar() {
+        // LiveUpdate(0) -> Config.UPDATE_NAME = "toppApp.jar";
+        var liveUpdate = new LiveUpdate(0);
+        var expected = "toppApp.bat";
+
+        liveUpdate.getBatName();
+
+        assertEquals(expected, Config.START_BAT_NAME);
+    }
+
+    @Test
+    void return_toppAppUpdaterBat_for_toppAppUpdaterJar() {
+        // LiveUpdate(3) -> Config.UPDATE_NAME = "toppAppUpdater.jar";
+        var liveUpdate = new LiveUpdate(3);
+        var expected = "toppAppUpdater.bat";
+
+        liveUpdate.getBatName();
+
+        assertEquals(expected, Config.START_BAT_NAME);
+    }
+
+    @Test
+    void return_sw_part_auto_test_bat_for_similar_jar() {
+        // LiveUpdate(<4+>) -> Config.UPDATE_NAME = "sw-part-auto-test.jar";
+        var liveUpdate = new LiveUpdate(4);
+        var expected = "sw-part-auto-test.bat";
+
+        liveUpdate.getBatName();
+
+        assertEquals(expected, Config.START_BAT_NAME);
     }
 }

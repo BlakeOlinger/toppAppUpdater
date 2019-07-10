@@ -63,10 +63,20 @@ class Daemon {
 
                     logger.log(Level.INFO, "Daemon - Check for Updates - Updates - Start");
 
-//                    for(var i = 0; i < Config.MICROSERVICE_NAMES.length
-//                            + Config.SW_BIN_NAMES.length; ++i) {
-//
-//                    }
+                    var liveUpdates = new ArrayList<LiveUpdate>();
+
+                    for(var i = 0; i < Config.MICROSERVICE_NAMES.length
+                            + Config.SW_BIN_NAMES.length; ++i) {
+                        if (Config.areUpdates.get(i)) {
+                            liveUpdates.add(
+                                    new LiveUpdate(i)
+                            );
+                        }
+                    }
+
+                    liveUpdates.forEach(LiveUpdate::update);
+
+                    liveUpdates.forEach(LiveUpdate::join);
 
                     logger.log(Level.INFO, "Daemon - Check for Updates - Updates - End");
 

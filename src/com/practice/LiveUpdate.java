@@ -96,13 +96,27 @@ class LiveUpdate implements Runnable{
         try {
             Files.writeString(configPath, "01");
 
-            // TODO - use .bat files instead - cmd.exe /c *.bat
-            // TODO - wait approximately 3 seconds before sending start command
-//            var process = new ProcessBuilder("cmd.exe", "/c",
-//                    Config.MICROSERVICE_NAMES[updateIndex]).start();
+            getBatName();
 
-        } catch (IOException ignore) {
+            var process = new ProcessBuilder("cmd.exe", "/c",
+                   Config.BAT_START_ROOT + Config.START_BAT_NAME).start();
+
+            process.waitFor();
+
+            process.destroy();
+
+        } catch (IOException | InterruptedException e) {
+            logger.log(Level.SEVERE, "Error Could Not Send Start Command to " +
+                    Config.UPDATE_NAME, e);
         }
+    }
+
+    void getBatName() {
+        if(updateIndex < 4)
+            Config.START_BAT_NAME = Config.UPDATE_NAME.substring(0,
+                    Config.UPDATE_NAME.length() - 4) + ".bat";
+        else
+            Config.START_BAT_NAME = "sw-part-auto-test.bat";
     }
 
     private void sendKillCommand() {
