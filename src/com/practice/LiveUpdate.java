@@ -53,8 +53,9 @@ class LiveUpdate implements Runnable{
 
         if(updateIndex != 3) {
 
-            if (updateIndex == 0)
-                sendGUIKillCommand();
+            if (updateIndex == 0 ||
+            updateIndex == 2)
+                sendSoftKillCommand();
             else
                 sendKillCommand();
 
@@ -101,7 +102,7 @@ class LiveUpdate implements Runnable{
                 + Config.UPDATE_NAME + " - Exit");
     }
 
-    private void sendGUIKillCommand() {
+    private void sendSoftKillCommand() {
         try {
             Files.writeString(configPath, "010");
         } catch (IOException ignore) {
