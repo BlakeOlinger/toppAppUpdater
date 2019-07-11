@@ -80,7 +80,7 @@ class LiveUpdate implements Runnable{
                     Files.copy(source, Paths.get(Main.userRoot + Config.UPDATE_NAME),
                         StandardCopyOption.REPLACE_EXISTING);
                 else
-                    Files.copy(source, Paths.get(Main.userRoot + "sw/" +
+                    Files.copy(source, Paths.get(Main.userRoot + "programFiles/sw/" +
                             Config.UPDATE_NAME), StandardCopyOption.REPLACE_EXISTING);
 
             } catch (IOException e) {
