@@ -15,6 +15,14 @@ class LiveUpdate implements Runnable{
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private boolean isSWName = false;
 
+    // FIXME - SW MS updates start a new instance for each file updated
+    //  - these will be updated at once - make new method that checks
+    //  - passed index and only calls start on last highest number passed
+    //  - check in daemon if number of live update instances is larger than
+    //  - non-SW ms and use size as check for passed index if it needs to
+    //  - be sent restart command
+    // FIXME - File access exception on SW file .../programFiles/sw/sw-part-auto-test.pdb
+
     LiveUpdate(int updateIndex) {
         this.updateIndex = updateIndex;
         thread = new Thread(this, "Live Update");
@@ -121,7 +129,6 @@ class LiveUpdate implements Runnable{
 
     private void sendStartCommand() {
         try {
-            if(Files.readString(configPath).substring(0, 1).compareTo("0") != 0) {
                 Files.writeString(configPath, "011");
 
                 getBatName();
@@ -132,7 +139,7 @@ class LiveUpdate implements Runnable{
                 process.waitFor();
 
                 process.destroy();
-            }
+
         } catch (IOException | InterruptedException e) {
             logger.log(Level.SEVERE, "Error Could Not Send Start Command to " +
                     Config.UPDATE_NAME, e);
