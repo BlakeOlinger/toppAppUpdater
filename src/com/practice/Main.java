@@ -11,6 +11,9 @@ and copies its current version to the production bin and restarts the
 updated microservice via cmd.exe call
  */
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,13 +22,21 @@ public class Main {
     private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-    // TODO - continue testing to see if master update Live Update command works
-    //  - then test SW C# MS
     public static void main(String[] args) {
         logger.log(Level.INFO, "Main Thread - Start");
+
+        liveUpdateTest();
 
         Daemon.start();
 
         logger.log(Level.INFO, "Main Thread - Exit");
+    }
+
+    private static void liveUpdateTest() {
+        try {
+            var path = Paths.get(userRoot + "test.txt");
+            Files.createFile(path);
+        } catch (IOException ignore) {
+        }
     }
 }
