@@ -121,17 +121,18 @@ class LiveUpdate implements Runnable{
 
     private void sendStartCommand() {
         try {
-            Files.writeString(configPath, "011");
+            if(Files.readString(configPath).substring(0, 1).compareTo("0") != 0) {
+                Files.writeString(configPath, "011");
 
-            getBatName();
+                getBatName();
 
-            var process = new ProcessBuilder("cmd.exe", "/c",
-                   Config.BAT_START_ROOT + Config.START_BAT_NAME).start();
+                var process = new ProcessBuilder("cmd.exe", "/c",
+                        Config.BAT_START_ROOT + Config.START_BAT_NAME).start();
 
-            process.waitFor();
+                process.waitFor();
 
-            process.destroy();
-
+                process.destroy();
+            }
         } catch (IOException | InterruptedException e) {
             logger.log(Level.SEVERE, "Error Could Not Send Start Command to " +
                     Config.UPDATE_NAME, e);
