@@ -14,14 +14,8 @@ class LiveUpdate implements Runnable{
     private static final Logger logger =
             Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private boolean isSWName = false;
-
-    // FIXME - SW MS updates start a new instance for each file updated
-    //  - these will be updated at once - make new method that checks
-    //  - passed index and only calls start on last highest number passed
-    //  - check in daemon if number of live update instances is larger than
-    //  - non-SW ms and use size as check for passed index if it needs to
-    //  - be sent restart command
-    // FIXME - File access exception on SW file .../programFiles/sw/sw-part-auto-test.pdb
+    private int SWindex = 0;
+    private String UPDATE_NAME = "";
 
     LiveUpdate(int updateIndex) {
         this.updateIndex = updateIndex;
@@ -31,15 +25,25 @@ class LiveUpdate implements Runnable{
             configPath = Paths.get(Config.CONFIG_ROOT + Config.CONFIG_NAMES[updateIndex]);
             source = Paths.get(Config.SOURCE_ROOT + Config.MICROSERVICE_NAMES[updateIndex]);
             target = Paths.get(Config.TARGET_ROOT + Config.MICROSERVICE_NAMES[updateIndex]);
-            Config.UPDATE_NAME = Config.MICROSERVICE_NAMES[updateIndex];
+            UPDATE_NAME = Config.MICROSERVICE_NAMES[updateIndex];
+
+//            System.out.println("Update Jar MS Name Constructor value - " + UPDATE_NAME);
         } else {
             isSWName = true;
-            var SWindex = updateIndex - Config.MICROSERVICE_NAMES.length;
+            SWindex = updateIndex - Config.MICROSERVICE_NAMES.length;
             configPath = Paths.get(Config.CONFIG_ROOT + Config.CONFIG_NAMES[3]);
             source = Paths.get(Config.SW_SOURCE_ROOT + Config.SW_BIN_NAMES[SWindex]);
             target = Paths.get(Config.SW_TARGET_ROOT + Config.SW_BIN_NAMES[SWindex]);
-            Config.UPDATE_NAME = Config.SW_BIN_NAMES[SWindex];
+            UPDATE_NAME = Config.SW_BIN_NAMES[SWindex];
+
+//            System.out.println("SW Index Constructor value - " + SWindex);
+//
+//            System.out.println("Update SW MS Name Constructor value - " + UPDATE_NAME);
         }
+    }
+
+    String getUpdateName() {
+        return UPDATE_NAME;
     }
 
     void update() {
@@ -57,7 +61,7 @@ class LiveUpdate implements Runnable{
     @Override
     public void run() {
         logger.log(Level.INFO, "Live Update - Thread - Updating - "
-                + Config.UPDATE_NAME + " - Start");
+                + UPDATE_NAME + " - Start");
 
         if(updateIndex != 3) {
 
@@ -77,19 +81,27 @@ class LiveUpdate implements Runnable{
 //
 //            System.out.println("target - " + target);
 //
-//            System.out.println("update name " + Config.UPDATE_NAME);
+//            System.out.println("update name " + UPDATE_NAME);
 //
-//            System.out.println("is SW Name - expect false - " + isSWName);
+//            System.out.println("is SW Name - " + isSWName);
+//
+//            System.out.println("update SW Index = " + SWindex);
+//
+//            System.out.println("name for SW Index = " + Config.SW_BIN_NAMES[SWindex]);
+
+            UPDATE_NAME = Config.SW_BIN_NAMES[SWindex];
+
+//            System.out.println("name after re-binding - " + UPDATE_NAME);
 
             try {
                 Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 
                 if(!isSWName)
-                    Files.copy(source, Paths.get(Main.userRoot + Config.UPDATE_NAME),
+                    Files.copy(source, Paths.get(Main.userRoot + UPDATE_NAME),
                         StandardCopyOption.REPLACE_EXISTING);
                 else
                     Files.copy(source, Paths.get(Main.userRoot + "programFiles/sw/" +
-                            Config.UPDATE_NAME), StandardCopyOption.REPLACE_EXISTING);
+                            UPDATE_NAME), StandardCopyOption.REPLACE_EXISTING);
 
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error Updater Could Not Copy Files to Update", e);
@@ -101,13 +113,16 @@ class LiveUpdate implements Runnable{
                 logger.log(Level.SEVERE, "Error Updater Thread Interrupted", e);
             }
 
-            sendStartCommand();
+            if (updateIndex < 4)
+                sendStartCommand();
+            else if (updateIndex == Config.startOnUpdateIndex)
+                sendStartCommand();
 
         } else
             sendMasterLiveUpdateUpdateCommand();
 
         logger.log(Level.INFO, "Live Update - Thread - Updating - "
-                + Config.UPDATE_NAME + " - Exit");
+                + UPDATE_NAME + " - Exit");
     }
 
     private void sendSoftKillCommand() {
@@ -142,14 +157,14 @@ class LiveUpdate implements Runnable{
 
         } catch (IOException | InterruptedException e) {
             logger.log(Level.SEVERE, "Error Could Not Send Start Command to " +
-                    Config.UPDATE_NAME, e);
+                    UPDATE_NAME, e);
         }
     }
 
     void getBatName() {
         if(updateIndex < 4)
-            Config.START_BAT_NAME = Config.UPDATE_NAME.substring(0,
-                    Config.UPDATE_NAME.length() - 4) + ".bat";
+            Config.START_BAT_NAME = UPDATE_NAME.substring(0,
+                    UPDATE_NAME.length() - 4) + ".bat";
         else
             Config.START_BAT_NAME = "sw-part-auto-test.bat";
     }

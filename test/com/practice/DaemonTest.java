@@ -9,8 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DaemonTest {
     private static Path tempSource;
@@ -76,5 +75,15 @@ class DaemonTest {
         assertFalse(Config.areUpdates.contains(Boolean.TRUE));
 
         Config.areUpdates.clear();
+    }
+
+    @Test
+    void true_for_config_sw_start_index_equal_5() {
+
+        for(var i = 0; i < 5; ++i) {
+            Daemon.assignSWStartIndex(i);
+        }
+
+        assertEquals(4, Config.startOnUpdateIndex);
     }
 }

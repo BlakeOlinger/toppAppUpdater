@@ -12,7 +12,7 @@ class LiveUpdateTest {
 
         liveUpdate.update();
 
-        assertEquals("toppApp.jar", Config.UPDATE_NAME);
+        assertEquals("toppApp.jar", liveUpdate.getUpdateName());
     }
 
     @Test
@@ -23,7 +23,7 @@ class LiveUpdateTest {
 
         liveUpdate.update();
 
-        assertEquals(expected, Config.UPDATE_NAME);
+        assertEquals(expected, liveUpdate.getUpdateName());
     }
 
     @Test
@@ -34,7 +34,7 @@ class LiveUpdateTest {
 
         liveUpdate.update();
 
-        assertEquals(expected, Config.UPDATE_NAME);
+        assertEquals(expected, liveUpdate.getUpdateName());
     }
 
     @Test
@@ -45,7 +45,7 @@ class LiveUpdateTest {
 
         liveUpdate.update();
 
-        assertEquals(expected, Config.UPDATE_NAME);
+        assertEquals(expected, liveUpdate.getUpdateName());
     }
 
     @Test

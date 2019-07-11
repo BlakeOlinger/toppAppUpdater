@@ -3,6 +3,7 @@ package com.practice;
 import java.util.ArrayList;
 
 class Config {
+    static int startOnUpdateIndex = 0;
     static String programState = "0";
     static boolean isDatabaseInitialized = false;
     static ArrayList<Boolean> areUpdates = new ArrayList<>();
@@ -12,7 +13,6 @@ class Config {
     static final String SW_TARGET_ROOT = Main.userRoot + "programFiles/bin/currentVersion/sw/";
     static final String CONFIG_ROOT = Main.userRoot + "programFiles/config/";
     static final String BAT_START_ROOT = Main.userRoot + "toppAppDBdaemon/programFiles/bat/";
-    static String UPDATE_NAME = "";
     static String START_BAT_NAME = "";
     static final String[] MICROSERVICE_NAMES = {
             "toppApp.jar",

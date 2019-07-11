@@ -80,6 +80,8 @@ class Daemon {
 //                            Config.areUpdates.forEach(System.out::println);
 //                            System.out.println("index = " + i);
 
+                            assignSWStartIndex(i);
+
                             try {
                                 Thread.sleep(3000);
                             } catch (InterruptedException ignore) {
@@ -109,6 +111,12 @@ class Daemon {
         } while (Config.programState.compareTo("0") == 0);
 
         logger.log(Level.INFO, "Daemon - Exit");
+    }
+
+    static void assignSWStartIndex(int index) {
+        if (index > 3)
+            if (index > Config.startOnUpdateIndex)
+                Config.startOnUpdateIndex = index;
     }
 
     private static void checkProgramState() {
