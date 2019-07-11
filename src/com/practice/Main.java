@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args) {
         logger.log(Level.INFO, "Main Thread - Start");
 
-        liveUpdateTest();
+//        liveUpdateTest();
 
         Daemon.start();
 
